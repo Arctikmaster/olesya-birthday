@@ -82,7 +82,6 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            /* Здесь подключается скачанная картинка bg.png, которая должна лежать в той же папке */
             background: url('bg.png') center/cover no-repeat;
             color: #fff;
             position: relative;
@@ -333,4 +332,111 @@
 
     <section id="rsvp" class="fade-in">
         <h2>Анкета для гостей</h2>
-        <p>Просим ответить на пару важных для нас вопросов. Ответы помогут нам подгото
+        <p>Просим ответить на пару важных для нас вопросов. Ответы помогут нам подготовить праздник по высшему разряду!<br>Пожалуйста, заполните форму до 99 декабря 9999 года.</p>
+        
+        <form onsubmit="submitForm(event)">
+            <div class="form-group">
+                <label for="name">Ваше имя и фамилия (если с парой - укажите через запятую)</label>
+                <input type="text" id="name" placeholder="Например: Кек и Чебурек Ивановы" required>
+            </div>
+
+            <div class="form-group">
+                <label for="attendance">Подтвердите своё присутствие</label>
+                <select id="attendance" required>
+                    <option value="" disabled selected>Выберите подходящий вариант</option>
+                    <option value="Я приду/мы придём">Я приду/мы придём</option>
+                    <option value="Я приду со своей парой">Я приду со своей парой</option>
+                    <option value="К сожалению, меня не будет">К сожалению, меня не будет</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="drinks">Предпочитаемые напитки</label>
+                <select id="drinks" required>
+                    <option value="" disabled selected>Выберите подходящий вариант</option>
+                    <option value="Шампанское">Шампанское</option>
+                    <option value="Вино">Вино</option>
+                    <option value="Виски">Виски</option>
+                    <option value="Водка">Водка</option>
+                    <option value="Коньяк">Коньяк</option>
+                    <option value="Безалкогольные напитки">Безалкогольные напитки</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="food">Предпочитаемые блюда</label>
+                <select id="food" required>
+                    <option value="" disabled selected>Выберите подходящий вариант</option>
+                    <option value="Мясо">Мясо</option>
+                    <option value="Рыба">Рыба</option>
+                    <option value="Я - веган">Я - веган(лох)</option>
+                </select>
+            </div>
+
+            <button type="submit">Отправить анкету</button>
+        </form>
+    </section>
+
+    <script>
+        // Установка даты события (Формат: Месяц День, Год Часы:Минуты:Секунды)
+        const countDownDate = new Date("July 02, 2026 16:00:00").getTime();
+
+        // Обновление таймера каждую 1 секунду
+        const timerInterval = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = countDownDate - now;
+
+            // Расчет времени
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Вывод результата (с добавлением ведущего нуля если число < 10)
+            document.getElementById("days").innerText = days < 10 ? '0' + days : days;
+            document.getElementById("hours").innerText = hours < 10 ? '0' + hours : hours;
+            document.getElementById("minutes").innerText = minutes < 10 ? '0' + minutes : minutes;
+            document.getElementById("seconds").innerText = seconds < 10 ? '0' + seconds : seconds;
+
+            // Если время вышло
+            if (distance < 0) {
+                clearInterval(timerInterval);
+                document.querySelector(".timer").innerHTML = "<h3>Суета уже началась!</h3>";
+            }
+        }, 1000);
+
+        // Обработка отправки формы
+        function submitForm(event) {
+            event.preventDefault(); // Останавливаем перезагрузку страницы
+            
+            // Здесь будет логика отправки на сервер или в Telegram-бота. 
+            // В качестве заглушки выводим уведомление об успехе.
+            alert("Спасибо! Ваша анкета успешно отправлена.");
+            
+            // Очистка формы после отправки
+            event.target.reset(); 
+        }
+
+        // Логика анимации при прокрутке
+        document.addEventListener("DOMContentLoaded", function() {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15 // Процент видимости элемента для срабатывания (15%)
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target); // Перестаем следить после появления
+                    }
+                });
+            }, observerOptions);
+
+            const fadeElements = document.querySelectorAll('.fade-in');
+            fadeElements.forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>
