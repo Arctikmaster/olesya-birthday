@@ -75,14 +75,14 @@
             margin: 0 auto;
         }
 
-        /* Главный экран (Hero) - Вернули главную картинку */
+        /* Главный экран (Hero) - Картинка убрана, показываем космос */
         .hero {
             height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: url('bg.png') center/cover no-repeat;
+            background: transparent;
             color: #fff;
             position: relative;
             margin-bottom: 50px;
@@ -91,7 +91,7 @@
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.45); /* Затемнение, чтобы текст хорошо читался */
+            background: rgba(0, 0, 0, 0.2); /* Легкое затемнение для читаемости */
         }
         .hero-content {
             position: relative;
@@ -105,6 +105,37 @@
             font-size: 1.5em;
             letter-spacing: 5px;
             margin-bottom: 20px;
+        }
+
+        /* Программа вечера (Таймлайн) */
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            margin-top: 50px;
+        }
+        .timeline-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 15px;
+            max-width: 500px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .timeline-time {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: #fff;
+            width: 140px; /* Увеличили ширину для "18:00-18:30" */
+            text-align: left;
+        }
+        .timeline-desc {
+            font-size: 1.2em;
+            color: #ccc;
+            text-align: right;
+            flex-grow: 1;
         }
         
         /* Обратный отсчет */
@@ -171,7 +202,7 @@
             background-color: rgba(255, 255, 255, 0.15);
             border-color: #B4A29D;
             color: #fff;
-            box-shadow: 0 0 15px rgba(180, 162, 157, 0.4); /* Легкое космическое свечение */
+            box-shadow: 0 0 15px rgba(180, 162, 157, 0.4);
         }
 
         /* Форма обратной связи */
@@ -260,12 +291,14 @@
             form { padding: 20px; }
             .timer-box { min-width: 50px; }
             .pinterest-btn { padding: 15px 20px; font-size: 1em; }
+            .timeline-time { width: 110px; font-size: 1.2em; } /* Адаптация времени для телефона */
         }
     </style>
 </head>
 <body>
 
     <nav>
+        <a href="#program">Программа</a>
         <a href="#place">Место</a>
         <a href="#dresscode">Дресс-код</a>
         <a href="#rsvp">Обратная связь</a>
@@ -281,8 +314,25 @@
 
     <section id="invite" class="fade-in">
         <h2>Дорогие мои!</h2>
-        <p>Приглашаю вас отметить вместе мой день рождения. Будем делать то, что больше всего обожаю: радоваться, петь, танцевать, вкушать и сиять!<br><br>
-        Любимые напитки, добрые пожелания, музыканты и танцы — в программе дня. Мы будем счастливы видеть вас на нашем празднике!</p>
+        <p>Приглашаю вас отметить вместе мой день рождения. Будем делать то, что больше всего обожаю: радоваться, петь, танцевать, вкушать и сиять!</p>
+    </section>
+
+    <section id="program" class="fade-in">
+        <h2>Программа вечера</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-time">18:00-18:30</div>
+                <div class="timeline-desc">Сбор гостей</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">18:30</div>
+                <div class="timeline-desc">Начало</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">23:00</div>
+                <div class="timeline-desc">Окончание</div>
+            </div>
+        </div>
     </section>
 
     <section id="place" class="fade-in">
@@ -309,9 +359,8 @@
     </section>
 
     <section id="dresscode" class="fade-in">
-        <h1>Дресс-код</h1>
-	<h2>Стиль: Black Tie</h2>
-        <p>Представленных ниже оттенков:</p>
+        <h2>Дресс-код</h2>
+        <p>Мы будем рады видеть вас — в вечерних нарядах представленных ниже оттенков:</p>
         <div class="colors">
             <div class="color-circle" style="background-color: #E6D5D2;"></div> 
             <div class="color-circle" style="background-color: #B4A29D;"></div> 
@@ -320,7 +369,7 @@
             <div class="color-circle" style="background-color: #2C2C2C;"></div> 
         </div>
         <!-- Стилизованная кнопка для перехода в Pinterest -->
-        <a href="https://pin.it/563ep7Wke" target="_blank" class="pinterest-btn">Посмотреть мудборд в Pinterest</a>
+        <a href="ВСТАВЬТЕ_ССЫЛКУ_СЮДА" target="_blank" class="pinterest-btn">Посмотреть мудборд в Pinterest</a>
     </section>
 
     <section id="rsvp" class="fade-in">
