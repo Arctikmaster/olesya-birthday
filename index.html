@@ -7,63 +7,365 @@
     
     <style>
         /* ПОДКЛЮЧЕНИЕ ЛОКАЛЬНЫХ ШРИФТОВ */
-        @font-face { font-family: 'Nicoletta Script'; src: url('nicoletta.otf') format('opentype'); font-weight: 400; font-style: normal; }
-        @font-face { font-family: 'Romantica Antiqua'; src: url('romantica.ttf') format('truetype'); font-weight: 500; font-style: normal; }
+        @font-face {
+            font-family: 'Nicoletta Script';
+            src: url('nicoletta.otf') format('opentype');
+            font-weight: 400;
+            font-style: normal;
+        }
 
-        body { font-family: 'Romantica Antiqua', serif; margin: 0; padding: 0; background-color: #000; color: #eee; text-align: center; scroll-behavior: smooth; overflow-x: hidden; }
-        #starfield-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; }
+        @font-face {
+            font-family: 'Romantica Antiqua';
+            src: url('romantica.ttf') format('truetype');
+            font-weight: 500;
+            font-style: normal;
+        }
 
-        nav { position: fixed; top: 0; width: 100%; background: rgba(0, 0, 0, 0.8); padding: 20px 0; z-index: 100; display: flex; justify-content: center; gap: 20px; text-transform: uppercase; letter-spacing: 2px; font-size: 1.41em; flex-wrap: wrap; }
-        nav a { text-decoration: none; color: #fff; transition: 0.3s; }
+        /* Базовые стили */
+        body {
+            font-family: 'Romantica Antiqua', serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #eee;
+            text-align: center;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        /* Контейнер для звездного неба */
+        #starfield-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Навигация */
+        nav {
+            position: fixed;
+            top: 0; 
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px 0;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1.41em;
+            flex-wrap: wrap;
+        }
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            transition: 0.3s;
+        }
         nav a:hover { color: #aaa; }
 
-        .magazine-block { min-height: 100vh; width: 100%; display: flex; justify-content: center; align-items: center; padding: 120px 20px; box-sizing: border-box; }
-        .magazine-card { width: 100%; max-width: 1200px; display: flex; flex-direction: column; align-items: center; position: relative; }
-        .magazine-image-wrap { width: 100%; aspect-ratio: 16 / 9; overflow: hidden; z-index: 1; }
-        .magazine-image-wrap img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(0.5); transition: 0.5s ease-in-out; }
-        .magazine-card:hover img { filter: grayscale(0); transform: scale(1.03); }
+        /* Общие контейнеры журнальных блоков */
+        .magazine-block {
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 120px 20px;
+            box-sizing: border-box;
+        }
 
-        .title-hero { font-family: 'Nicoletta Script', cursive; font-size: clamp(2.11em, 4.22vw, 3.52em); font-weight: 400; letter-spacing: 2px; line-height: 0.85; margin: 0; z-index: 2; margin-bottom: -10vh; }
-        .text-hero { font-family: 'Nicoletta Script', cursive; font-size: clamp(1.06em, 2.11vw, 2.11em); letter-spacing: 2px; font-weight: 400; max-width: 650px; margin: 0; line-height: 1.4; z-index: 2; margin-top: -10vh; color: rgba(255, 255, 255, 0.9); }
-        .title-invite { font-family: 'Romantica Antiqua', serif; font-size: clamp(2.46em, 5.63vw, 4.22em); text-transform: uppercase; font-weight: 500; letter-spacing: 5px; line-height: 0.85; margin: 0; z-index: 2; margin-bottom: -3vh; }
-        .text-invite { font-family: 'Romantica Antiqua', serif; font-size: clamp(0.85em, 1.41vw, 1.27em); letter-spacing: 3px; font-weight: 500; max-width: 850px; margin: 0; line-height: 1.4; z-index: 2; margin-top: -3vh; color: rgba(255, 255, 255, 0.9); }
+        .magazine-card {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
 
-        section:not(.magazine-block) { padding: 80px 20px; max-width: 900px; margin: 0 auto; }
-        h2 { font-weight: 500; text-transform: uppercase; letter-spacing: 3px; font-size: 1.55em; }
-        .timeline-item { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.2); padding: 15px 0; font-size: 1.12em; }
+        .magazine-image-wrap {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .magazine-image-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(0.5);
+            transition: 0.5s ease-in-out;
+        }
+
+        .magazine-card:hover img {
+            filter: grayscale(0);
+            transform: scale(1.03);
+        }
+
+        /* --- СТИЛИ ДЛЯ 1-ГО БЛОКА (HERO) --- */
+        .title-hero {
+            font-family: 'Nicoletta Script', cursive;
+            font-size: clamp(2.11em, 4.22vw, 3.52em);
+            font-weight: 400;
+            letter-spacing: 2px;
+            line-height: 0.85;
+            margin: 0;
+            position: relative;
+            z-index: 2;
+            margin-bottom: -10vh;
+        }
+
+        .text-hero {
+            font-family: 'Nicoletta Script', cursive;
+            font-size: clamp(1.06em, 2.11vw, 2.11em);
+            letter-spacing: 2px;
+            font-weight: 400;
+            max-width: 650px;
+            margin: 0;
+            line-height: 1.4;
+            position: relative;
+            z-index: 2;
+            margin-top: -10vh;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* --- СТИЛИ ДЛЯ 2-ГО БЛОКА (INVITE) --- */
+        .title-invite {
+            font-family: 'Romantica Antiqua', serif;
+            font-size: clamp(2.46em, 5.63vw, 4.22em);
+            text-transform: uppercase;
+            font-weight: 500;
+            letter-spacing: 5px;
+            line-height: 0.85;
+            margin: 0;
+            position: relative;
+            z-index: 2; 
+            margin-bottom: -3vh; 
+        }
+
+        .text-invite {
+            font-family: 'Romantica Antiqua', serif;
+            font-size: clamp(0.85em, 1.41vw, 1.27em);
+            letter-spacing: 3px;
+            font-weight: 500;
+            max-width: 850px;
+            margin: 0;
+            line-height: 1.4;
+            position: relative;
+            z-index: 2; 
+            margin-top: -3vh; 
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Остальные секции */
+        section:not(.magazine-block) {
+            padding: 80px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* РАЗМЕР ЗАГОЛОВКОВ */
+        h2 { 
+            font-weight: 500; 
+            text-transform: uppercase; 
+            letter-spacing: 3px; 
+            font-size: 1.55em;
+        }
+
+        /* РАЗМЕР ОБЫЧНОГО ТЕКСТА */
+        section:not(.magazine-block) p {
+            font-size: 1.06em;
+            line-height: 1.5;
+        }
+
+        /* РАЗМЕР СТРОК В РАСПИСАНИИ */
+        .timeline-item {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding: 15px 0;
+            font-size: 1.12em;
+        }
+
         .timer { display: flex; justify-content: center; gap: 20px; margin-top: 40px; }
         .timer-box { background: rgba(255,255,255,0.05); padding: 15px; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; min-width: 80px; }
-        .timer-box span { display: block; font-size: 2.46em; }
+        
+        /* РАЗМЕР ЦИФР ТАЙМЕРА */
+        .timer-box span { 
+            display: block; 
+            font-size: 2.46em;
+        }
+
+        /* РАЗМЕР ПОДПИСЕЙ ТАЙМЕРА */
+        .timer-box small {
+            font-size: 0.99em;
+        }
+
         .colors { display: flex; justify-content: center; gap: 15px; margin: 30px 0; }
         .color-box { width: 50px; height: 50px; border-radius: 50%; border: 2px solid #fff; }
 
-        .btn-outline { display: inline-block; color: #FFFFFF; text-decoration: none; border: 1px solid #FFFFFF; padding: 10px 20px; font-size: 1.06em; background: transparent; cursor: pointer; transition: 0.3s; }
-        .btn-filled { display: inline-block; background-color: #560c0e; color: #FFFFFF; text-decoration: none; padding: 15px 30px; font-size: 1.06em; text-transform: uppercase; border-radius: 5px; transition: 0.3s; }
-        .btn-filled:hover { background-color: #7a1114; }
+        /* --- СТИЛИ КОНТУРНЫХ КНОПОК --- */
+        .btn-outline {
+            display: inline-block;
+            color: #FFFFFF;
+            text-decoration: none;
+            border: 1px solid #FFFFFF;
+            padding: 10px 20px;
+            font-size: 1.06em;
+            background: transparent;
+            cursor: pointer;
+            font-family: inherit;
+            transition: 0.3s ease;
+            outline: none;
+        }
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
 
-        form { display: flex; flex-direction: column; gap: 25px; max-width: 600px; margin: 40px auto 0; text-align: left; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(10px); padding: 40px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.1); }
-        .form-group { display: flex; flex-direction: column; gap: 8px; }
-        label { font-size: 1.47em; color: #eee; }
-        input, select { padding: 15px; font-family: inherit; font-size: 1.12em; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 5px; background: rgba(255, 255, 255, 0.1); color: #fff; outline: none; }
-        button[type="submit"] { background-color: #560c0e; color: #FFFFFF; padding: 18px; border: none; border-radius: 5px; cursor: pointer; text-transform: uppercase; }
+        /* --- СТИЛИ ЗАЛИТОЙ КНОПКИ (ВИШЛИСТ) --- */
+        .btn-filled {
+            display: inline-block;
+            background-color: #560c0e;
+            color: #FFFFFF;
+            text-decoration: none;
+            padding: 15px 30px;
+            font-size: 1.06em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-radius: 5px;
+            transition: 0.3s ease;
+            margin-top: 15px;
+            font-family: inherit;
+        }
+        .btn-filled:hover {
+            background-color: #7a1114;
+        }
+
+        /* СТИЛИ СПОЙЛЕРА (ДЛЯ КАРТЫ) */
+        .map-spoiler {
+            margin-top: 20px;
+        }
+        details > summary {
+            list-style: none;
+        }
+        details > summary::-webkit-details-marker {
+            display: none;
+        }
+
+        /* --- СТИЛИ ДЛЯ ФОРМЫ --- */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            max-width: 600px;
+            margin: 40px auto 0;
+            text-align: left;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        label {
+            font-size: 1.47em;
+            color: #eee;
+            font-family: inherit;
+        }
+        input, select {
+            padding: 15px;
+            font-family: inherit;
+            font-size: 1.12em;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            outline: none;
+        }
+        select option {
+            background: #2c2c2c;
+            color: #fff;
+        }
+        button[type="submit"] {
+            background-color: #560c0e;
+            color: #FFFFFF;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: none;
+            padding: 18px;
+            font-size: 1.41em;
+            font-family: inherit;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+        button[type="submit"]:hover { background-color: #7a1114; }
+        button[type="submit"]:disabled { background-color: #666; cursor: not-allowed; }
+
         .fade-in { opacity: 0; transform: translateY(30px); transition: 1s ease-out; }
         .fade-in.visible { opacity: 1; transform: translateY(0); }
         .hidden { display: none !important; }
+
+        @media (max-width: 768px) {
+            .title-hero { font-size: 1.76em; margin-bottom: -5vh; }
+            .title-invite { font-size: 1.76em; margin-bottom: -1vh; }
+            .text-hero { font-size: 1.06em; margin-top: -5vh; padding: 0 10px; }
+            .text-invite { font-size: 0.77em; margin-top: -1vh; padding: 0 10px; }
+            form { padding: 20px; }
+            nav { font-size: 0.85em; gap: 15px; }
+            
+            .timer { gap: 8px; }
+            .timer-box { min-width: auto; flex: 1; padding: 10px 5px; box-sizing: border-box; }
+            .timer-box span { font-size: 1.41em; }
+            .timer-box small { font-size: 0.7em; }
+
+            .btn-outline { font-size: 0.85em; padding: 8px 15px; }
+            .btn-filled { font-size: 0.85em; padding: 12px 20px; }
+        }
     </style>
 </head>
 <body>
+
     <div id="starfield-container"></div>
+
     <nav>
-        <a href="#program">Программа</a> <a href="#place">Место</a> <a href="#dresscode">Дресс-код</a> <a href="#wishlist">Вишлист</a> <a href="#rsvp">Анкета</a>
+        <a href="#program">Программа</a>
+        <a href="#place">Место</a>
+        <a href="#dresscode">Дресс-код</a>
+        <a href="#wishlist">Вишлист</a>
+        <a href="#rsvp">Анкета</a>
     </nav>
 
     <header class="magazine-block">
         <div class="magazine-card fade-in">
             <h1 class="title-hero">Birthday party<br>Rip 20’s hello 30’s</h1>
-            <div class="magazine-image-wrap"><img src="Birthday Image.jpg" alt="Birthday Image"></div>
+            <div class="magazine-image-wrap">
+                <img src="Birthday Image.jpg" alt="Birthday Image">
+            </div>
             <p class="text-hero">02 июля 2026 года</p>
         </div>
     </header>
+
+    <section id="invite" class="magazine-block">
+        <div class="magazine-card fade-in">
+            <h2 class="title-invite">Дорогие мои!</h2>
+            <div class="magazine-image-wrap">
+                <img src="Invite Image.jpg" alt="Invite Image">
+            </div>
+            <p class="text-invite">Приглашаю вас отметить вместе мой день рождения. Будем делать то, что больше всего обожаю: радоваться, петь, танцевать, вкушать и сиять!</p>
+        </div>
+    </section>
 
     <section id="program" class="fade-in">
         <h2>Программа вечера</h2>
@@ -77,8 +379,35 @@
     <section id="place" class="fade-in">
         <h2>Место проведения</h2>
         <p><strong>Банкетный зал «Луи»</strong><br>г. Екатеринбург, ул. Радищева, д.1</p>
-        <details class="map-spoiler"><summary class="btn-outline">Показать на карте</summary>
-        <iframe src="https://yandex.ru/map-widget/v1/?ll=60.596489%2C56.828559&mode=search&ol=biz&oid=8916699783&z=16&theme=dark" width="100%" height="400" frameborder="0"></iframe></details>
+        
+        <details class="map-spoiler">
+            <summary class="btn-outline">Показать на карте</summary>
+            <iframe src="https://yandex.ru/map-widget/v1/?ll=60.596489%2C56.828559&mode=search&ol=biz&oid=8916699783&z=16&theme=dark" width="100%" height="400" frameborder="0" style="border-radius:10px; margin-top:20px;"></iframe>
+        </details>
+    </section>
+
+    <section id="countdown" class="fade-in">
+        <h2>До празднования осталось:</h2>
+        <div class="timer">
+            <div class="timer-box"><span id="days">00</span><small>Дней</small></div>
+            <div class="timer-box"><span id="hours">00</span><small>Часов</small></div>
+            <div class="timer-box"><span id="minutes">00</span><small>Минут</small></div>
+            <div class="timer-box"><span id="seconds">00</span><small>Секунд</small></div>
+        </div>
+    </section>
+
+    <section id="dresscode" class="fade-in">
+        <h2>Дресс-код</h2>
+        <p>Буду рада видеть вас в нарядах этих оттенков:</p>
+        <div class="colors">
+            <div class="color-box" style="background-color: #ffffff;"></div> 
+            <div class="color-box" style="background-color: #e7d6c4;"></div> 
+            <div class="color-box" style="background-color: #2a1b16;"></div> 
+            <div class="color-box" style="background-color: #551c25;"></div> 
+            <div class="color-box" style="background-color: #0a090f;"></div> 
+        </div>
+        <br>
+        <a href="https://pin.it/563ep7Wke" target="_blank" class="btn-outline">Pinterest Moodboard</a>
     </section>
 
     <section id="wishlist" class="fade-in">
@@ -89,51 +418,386 @@
 
     <section id="rsvp" class="fade-in">
         <h2>Анкета для гостей</h2>
-        <form action="https://formspree.io/f/mjgzalgp" method="POST" onsubmit="submitForm(event)">
+        <p>Просьба ответить на пару вопросов до <strong>14 июня 2026 года.</strong></p>
+        
+        <form onsubmit="submitForm(event)">
             <div class="form-group">
                 <label for="name">Ваше имя и фамилия</label>
-                <input type="text" name="Имя_гостя" id="name" required>
+                <input type="text" id="name" placeholder="Фамилия Имя Отчество" required>
             </div>
+
             <div class="form-group">
-                <label>Подтвердите присутствие</label>
-                <select name="Присутствие">
+                <label for="attendance">Подтвердите своё присутствие</label>
+                <select id="attendance" required>
+                    <option value="" disabled selected>Выберите подходящий вариант</option>
                     <option value="Я приду">Я приду</option>
-                    <option value="К сожалению, не буду">Не буду</option>
+                    <option value="К сожалению, меня не будет">К сожалению, меня не будет</option>
                 </select>
             </div>
+
             <div class="form-group">
-                <label>Напитки</label>
-                <select name="Напитки" id="drinks" onchange="checkDrinkSelection()">
+                <label for="drinks">Предпочитаемые напитки</label>
+                <select id="drinks" required onchange="checkDrinkSelection()">
+                    <option value="" disabled selected>Выберите подходящий вариант</option>
                     <option value="Вино">Вино</option>
                     <option value="Виски">Виски</option>
-                    <option value="Безалкогольные">Безалкогольные</option>
+                    <option value="Вермут">Вермут</option>
+                    <option value="Безалкогольные напитки">Безалкогольные напитки</option>
                 </select>
             </div>
+
             <div class="form-group hidden" id="drink-comment-group">
-                <label>Уточните предпочтения</label>
-                <input type="text" name="Детали_напитка" id="drink-comment">
+                <label for="drink-comment" id="drink-comment-label">Уточните предпочтения</label>
+                <input type="text" id="drink-comment" placeholder="Ваш комментарий">
             </div>
+
+            <div class="form-group">
+                <label for="food">Предпочитаемые блюда</label>
+                <select id="food" required>
+                    <option value="" disabled selected>Выберите подходящий вариант</option>
+                    <option value="Мясо">Мясо</option>
+                    <option value="Рыба">Рыба</option>
+                    <option value="Я - веган">Я - веган</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="comment">Комментарий</label>
+                <input type="text" id="comment" placeholder="Ваши пожелания">
+            </div>
+
             <button type="submit">Отправить анкету</button>
         </form>
     </section>
 
     <script type="module">
         import * as THREE from 'https://cdn.skypack.dev/three@0.136.0';
-        /* ... Весь ваш JS для звездного неба остается здесь ... */
-    </script>
-    <script>
-        function checkDrinkSelection() {
-            const drink = document.getElementById('drinks').value;
-            document.getElementById('drink-comment-group').classList.toggle('hidden', drink === 'Безалкогольные');
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
+        camera.position.z = 1;
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        document.getElementById('starfield-container').appendChild(renderer.domElement);
+
+        const PINK_COLORS = [new THREE.Color(0xff11ff), new THREE.Color(0x542229), new THREE.Color(0xd44d6e)];
+        const ORANGE_COLORS = [new THREE.Color(0xff7733), new THREE.Color(0xd56633)];
+        const GREEN_COLORS = [new THREE.Color(0x91fd01), new THREE.Color(0x215000)];
+
+        let geometryInitialized = false;
+
+        const starShaderMaterial = new THREE.ShaderMaterial({
+            transparent: true,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false,
+            uniforms: { uTime: { value: 0 } },
+            vertexShader: `
+                attribute float size;
+                attribute vec3 customColor;
+                attribute float type; 
+                attribute float spikeType; 
+                attribute float opacity;
+                varying vec3 vColor;
+                varying float vType;
+                varying float vSpikeType;
+                varying float vOpacity;
+                void main() {
+                    vColor = customColor;
+                    vType = type;
+                    vSpikeType = spikeType;
+                    vOpacity = opacity;
+                    vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+                    gl_PointSize = size * (300.0 / -mvPosition.z);
+                    gl_Position = projectionMatrix * mvPosition;
+                }
+            `,
+            fragmentShader: `
+                varying vec3 vColor;
+                varying float vType;
+                varying float vSpikeType;
+                varying float vOpacity;
+                void main() {
+                    vec2 uv = gl_PointCoord - 0.5;
+                    float dist = length(uv);
+                    float alpha = 0.0;
+                    
+                    if(vType < 2.5) {
+                        alpha = smoothstep(0.05, 0.0, dist);
+                    } else {
+                        float solidCore = smoothstep(0.1, 0.02, dist) * 1.5; 
+                        float halo = smoothstep(0.45, 0.0, dist) * 0.3; 
+                        alpha = solidCore + halo; 
+                    }
+
+                    if(vType > 2.5) {
+                        float beam = 0.0;
+                        if(vSpikeType < 0.5) {
+                            beam = max(
+                                smoothstep(0.04, 0.01, abs(uv.x)) * smoothstep(0.5, 0.0, abs(uv.y)),
+                                smoothstep(0.04, 0.01, abs(uv.y)) * smoothstep(0.5, 0.0, abs(uv.x))
+                            );
+                        } else {
+                            vec2 uvRot = vec2(uv.x * 0.707 - uv.y * 0.707, uv.x * 0.707 + uv.y * 0.707);
+                            beam = max(
+                                smoothstep(0.04, 0.01, abs(uvRot.x)) * smoothstep(0.5, 0.0, abs(uvRot.y)),
+                                smoothstep(0.04, 0.01, abs(uvRot.y)) * smoothstep(0.5, 0.0, abs(uvRot.x))
+                            );
+                        }
+                        float edgeFade = smoothstep(0.5, 0.4, dist);
+                        alpha += beam * edgeFade * 1.0;
+                    }
+
+                    gl_FragColor = vec4(vColor, alpha * vOpacity);
+                }
+            `
+        });
+
+        const countAway = 2400; 
+        const countTowards = 150; 
+        const total = countAway + countTowards;
+
+        const positions = new Float32Array(total * 3);
+        const colors = new Float32Array(total * 3);
+        const sizes = new Float32Array(total);
+        const types = new Float32Array(total);
+        const spikeTypes = new Float32Array(total);
+        const opacities = new Float32Array(total);
+
+        const particlesData = [];
+        let geometry;
+
+        function initParticle(i, isTowards, isRespawn = false) {
+            const d = particlesData[i] || {};
+            d.index = i;
+            d.isTowards = isTowards;
+            
+            d.lifetime = isTowards ? (0.75 + Math.random() * 1.25) : (1.0 + Math.random() * 1.0); 
+            d.age = isRespawn ? 0 : Math.random() * d.lifetime; 
+
+            d.fadeType = Math.random() > 0.5 ? 1 : 2; 
+
+            const spreadX = 19.2; 
+            const spreadY = 10.8;
+            d.moveProgress = Math.random(); 
+
+            if (!isTowards) {
+                const rand = Math.random();
+                if (rand < 0.65) { d.color = PINK_COLORS[Math.floor(Math.random()*3)]; d.baseSize = ((3 + Math.random()*3) / 4.0) * 2.0; }
+                else if (rand < 0.95) { d.color = ORANGE_COLORS[Math.floor(Math.random()*2)]; d.baseSize = ((2 + Math.random()*2) / 4.0) * 2.0; }
+                else { d.color = GREEN_COLORS[Math.floor(Math.random()*2)]; d.baseSize = ((1 + Math.random()) / 4.0) * 2.0; }
+                
+                d.moveSpeed = (0.002 + Math.random() * 0.005) / 12.0; 
+                d.type = 2.0;
+                d.startX = (Math.random()-0.5)*spreadX;
+                d.startY = (Math.random()-0.5)*spreadY;
+                d.startZ = -Math.random()*5; 
+            } else {
+                const rand = Math.random();
+                if (rand < 0.6) { 
+                    d.color = PINK_COLORS[Math.floor(Math.random()*3)]; 
+                    d.baseSize = ((4 + Math.random()*4) / 4.0) * 0.5; 
+                    d.spikeType = Math.random() > 0.5 ? 1.0 : 0.0; 
+                } else {
+                    d.color = ORANGE_COLORS[Math.floor(Math.random()*2)]; 
+                    d.baseSize = ((4 + Math.random()*2) / 4.0) * 0.5; 
+                    d.spikeType = 0.0; 
+                }
+                d.moveSpeed = (0.002 + Math.random() * 0.005) / 12.0; 
+                d.type = 3.0;
+                d.startX = (Math.random()-0.5)*spreadX;
+                d.startY = (Math.random()-0.5)*spreadY;
+                d.startZ = -15 - Math.random()*5; 
+            }
+
+            particlesData[i] = d;
+            
+            colors[i*3] = d.color.r;
+            colors[i*3+1] = d.color.g;
+            colors[i*3+2] = d.color.b;
+            types[i] = d.type;
+            spikeTypes[i] = d.spikeType || 0;
+
+            if (geometryInitialized) {
+                geometry.attributes.customColor.needsUpdate = true;
+                geometry.attributes.type.needsUpdate = true;
+                geometry.attributes.spikeType.needsUpdate = true;
+            }
         }
+
+        for (let i = 0; i < total; i++) {
+            initParticle(i, i >= countAway);
+        }
+
+        geometry = new THREE.BufferGeometry();
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        geometry.setAttribute('customColor', new THREE.BufferAttribute(colors, 3));
+        geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+        geometry.setAttribute('type', new THREE.BufferAttribute(types, 1));
+        geometry.setAttribute('spikeType', new THREE.BufferAttribute(spikeTypes, 1));
+        geometry.setAttribute('opacity', new THREE.BufferAttribute(opacities, 1));
+
+        const points = new THREE.Points(geometry, starShaderMaterial);
+        scene.add(points);
+        geometryInitialized = true;
+
+        let lastTime = performance.now();
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            let now = performance.now();
+            let dt = (now - lastTime) / 1000.0; 
+            lastTime = now;
+
+            for (let i = 0; i < total; i++) {
+                const d = particlesData[i];
+                d.age += dt;
+
+                if (d.age >= d.lifetime) {
+                    initParticle(i, d.isTowards, true);
+                }
+
+                d.moveProgress += d.moveSpeed;
+                if (d.moveProgress > 1) d.moveProgress -= 1;
+
+                let curPos = new THREE.Vector3(d.startX, d.startY, d.startZ);
+                let lifeNorm = d.age / d.lifetime; 
+                let curOpacity = 1.0;
+                let curSize = d.baseSize;
+
+                if (d.type === 2.0) {
+                    curPos.z -= (d.moveProgress * 15);
+                    curPos.x *= (1.0 - d.moveProgress);
+                    curPos.y *= (1.0 - d.moveProgress);
+                    curSize *= (1.0 - d.moveProgress);
+                    
+                    if (d.fadeType === 1) {
+                        curOpacity = Math.min(1.0, lifeNorm * 5.0);
+                    } else {
+                        curOpacity = Math.sin(lifeNorm * Math.PI);
+                    }
+                } else {
+                    curPos.z += (d.moveProgress * 20);
+                    
+                    if (d.fadeType === 1) {
+                        curOpacity = 1.0 - lifeNorm;
+                    } else {
+                        curOpacity = lifeNorm;
+                    }
+                }
+
+                positions[i*3] = curPos.x;
+                positions[i*3+1] = curPos.y;
+                positions[i*3+2] = curPos.z;
+                sizes[i] = curSize;
+                opacities[i] = curOpacity;
+            }
+
+            geometry.attributes.position.needsUpdate = true;
+            geometry.attributes.size.needsUpdate = true;
+            geometry.attributes.opacity.needsUpdate = true;
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        const countDownDate = new Date("July 02, 2026 18:00:00").getTime();
+        setInterval(() => {
+            const now = new Date().getTime(); const distance = countDownDate - now;
+            document.getElementById("days").innerText = Math.floor(distance / 86400000);
+            document.getElementById("hours").innerText = Math.floor((distance % 86400000) / 3600000);
+            document.getElementById("minutes").innerText = Math.floor((distance % 3600000) / 60000);
+            document.getElementById("seconds").innerText = Math.floor((distance % 60000) / 1000);
+        }, 1000);
+
+        function checkDrinkSelection() {
+            const drinkGroup = document.getElementById('drink-comment-group');
+            const drink = document.getElementById('drinks').value;
+            const label = document.getElementById('drink-comment-label');
+            const input = document.getElementById('drink-comment');
+
+            if (drink && drink !== 'Безалкогольные напитки') {
+                drinkGroup.classList.remove('hidden');
+                if (drink === 'Вино') {
+                    label.innerText = 'Укажите, какое вино предпочитаете';
+                    input.placeholder = 'Например: красное сухое';
+                } else if (drink === 'Виски') {
+                    label.innerText = 'Укажите, какой виски предпочитаете';
+                    input.placeholder = 'Например: односолодовый, бурбон';
+                } else if (drink === 'Вермут') {
+                    label.innerText = 'Укажите, какой вермут предпочитаете';
+                    input.placeholder = 'Например: Martini Bianco';
+                }
+            } else {
+                drinkGroup.classList.add('hidden');
+                input.value = ''; 
+            }
+        }
+
         async function submitForm(event) {
             event.preventDefault();
-            const form = event.target;
-            const btn = form.querySelector('button');
-            btn.innerText = 'Отправка...'; btn.disabled = true;
-            const res = await fetch(form.action, { method: "POST", body: new FormData(form), headers: { 'Accept': 'application/json' } });
-            if (res.ok) { alert("Успешно!"); form.reset(); } else { alert("Ошибка!"); }
-            btn.innerText = 'Отправить анкету'; btn.disabled = false;
+            
+            const btn = event.target.querySelector('button[type="submit"]');
+            btn.innerText = 'Отправка...';
+            btn.disabled = true;
+
+            const name = document.getElementById('name').value;
+            const attendance = document.getElementById('attendance').value;
+            const drinkBase = document.getElementById('drinks').value;
+            const drinkComment = document.getElementById('drink-comment').value.trim();
+            const drinks = (drinkComment && drinkBase !== 'Безалкогольные напитки') ? `${drinkBase} (${drinkComment})` : drinkBase;
+            const food = document.getElementById('food').value;
+            const comment = document.getElementById('comment').value;
+
+            // Формируем JSON-пакет данных
+            const payload = {
+                "Имя гостя": name,
+                "Присутствие": attendance,
+                "Напитки": drinks,
+                "Еда": food,
+                "Комментарий": comment || "Нет комментария",
+            };
+
+            // ==== ВАЖНО: СЮДА НУЖНО ВСТАВИТЬ ВАШУ ССЫЛКУ-ОБРАБОТЧИК ====
+            // Получите её в qform.io или настройте Google Apps Script
+            const endpointUrl = "https://formspree.io/f/mjgzalgp"; 
+
+            try {
+                const res = await fetch(endpointUrl, {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                // Если используете Google Apps Script, раскомментируйте код ниже и удалите блок выше:
+                // const res = await fetch(endpointUrl, { method: "POST", mode: 'no-cors', body: JSON.stringify(payload) });
+
+                alert("Успешно! Анкета отправлена."); 
+                event.target.reset(); 
+                document.getElementById('drink-comment-group').classList.add('hidden');
+                
+            } catch (e) { 
+                alert("Произошла ошибка при отправке. Пожалуйста, проверьте подключение и попробуйте еще раз!"); 
+            }
+            
+            btn.innerText = 'Отправить анкету'; 
+            btn.disabled = false;
         }
     </script>
 </body>
